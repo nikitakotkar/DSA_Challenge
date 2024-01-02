@@ -1,0 +1,25 @@
+class Solution {
+     
+     HashMap<Integer,Integer> map=new HashMap<>();
+     Random rand=new Random();
+     int rows,cols,total;
+   
+    public Solution(int m, int n) {  
+        rows=m;
+        cols=n;
+        total=rows*cols;
+    }
+    
+    public int[] flip() 
+    {
+       int r=rand.nextInt(total--);
+       int x=map.getOrDefault(r,r);
+       map.put(r,map.getOrDefault(total,total));
+       return new int[]{x/cols,x%cols};
+    }
+    
+    public void reset() {
+        map.clear();
+        total=rows*cols;
+    }
+}
