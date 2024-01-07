@@ -1,0 +1,38 @@
+import java.util.Arrays;
+
+class Solution {
+    private int[][] directions = {
+        {-1, -1}, {-1, 0}, {-1, 1},
+        {0, -1}, {0, 0}, {0, 1},
+        {1, -1}, {1, 0}, {1, 1}
+    };
+
+    public int[][] imageSmoother(int[][] img) {
+        int m = img.length;
+        int n = img[0].length;
+
+        int[][] result = new int[m][n];
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int sum = 0;
+                int count = 0;
+
+                // Iterate over all plausible nine indices.
+                for (int[] direction : directions) {
+                    // If the indices form a valid neighbor
+                    int ith = i + direction[0];
+                    int jth = j + direction[1];
+
+                    if (0 <= ith && ith < m && 0 <= jth && jth < n) {
+                        sum += img[ith][jth];
+                        count += 1;
+                    }
+                }
+
+                result[i][j] = sum / count;
+            }
+        }
+        return result;
+    }
+}
