@@ -1,0 +1,44 @@
+class Solution {
+    public int shoppingOffers(List<Integer> price, List<List<Integer>> special, List<Integer> needs) {
+         
+        Map<List<Integer>, Integer> memo = new HashMap<>();
+        return minCost(price, special, needs, memo);
+    }
+    
+    private int minCost(List<Integer> price, List<List<Integer>> special, List<Integer> needs, Map<List<Integer>, Integer> memo) {
+        if (memo.containsKey(needs)) {
+            return memo.get(needs);
+        }
+       
+        int cost = calcCost(price, needs);
+        
+        for (List<Integer> offer : special) {
+            boolean valid = true;
+            List<Integer> newNeeds = new ArrayList<>(needs);
+            
+            for (int i = 0; i < price.size(); i++) {
+                //checking if our current offer is valid or not depending on our current needs list
+                if (offer.get(i) > newNeeds.get(i)) {
+                    valid = false;
+                    break;
+                }
+                newNeeds.set(i, newNeeds.get(i) - offer.get(i));
+            }
+            
+            if (valid) {
+                cost = Math.min(cost, offer.get(price.size()) + minCost(price, special, newNeeds, memo));
+            }
+        }
+        
+        memo.put(needs, cost);
+        return cost;
+    }
+    
+    private int calcCost(List<Integer> price, List<Integer> needs) {
+        int cost = 0;
+        for (int i = 0; i < price.size(); i++) {
+            cost += price.get(i) * needs.get(i);
+        }
+        return cost;
+    }
+}
