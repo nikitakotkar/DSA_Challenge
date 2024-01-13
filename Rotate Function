@@ -1,0 +1,28 @@
+class Solution {
+    public int maxRotateFunction(int[] A) 
+    {
+        if (A == null || A.length == 0) {
+            return 0;
+        }
+
+        int sum = 0, F0 = 0;
+
+        for (int i = 0; i < A.length; i++) 
+        {
+            sum += A[i];
+            F0 += i * A[i];
+        }
+
+        int max = F0;
+        int currentRotation = F0;
+
+        for (int i = 1; i < A.length; i++) 
+        {
+            // Calculate the next rotation based on the previous rotation
+            currentRotation = currentRotation + sum - A.length * A[A.length - i];
+            max = Math.max(max, currentRotation);
+        }
+
+        return max;
+    }
+}
