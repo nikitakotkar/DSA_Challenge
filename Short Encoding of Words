@@ -1,0 +1,24 @@
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+class Solution {
+    public int minimumLengthEncoding(String[] words) {
+        Set<String> suffixSet = new HashSet<>(Arrays.asList(words));
+
+        for (String word : words) {
+            for (int i = 1; i < word.length(); i++) {
+                // Remove all suffixes of each word from the set
+                suffixSet.remove(word.substring(i));
+            }
+        }
+
+        int totalLength = 0;
+        for (String suffix : suffixSet) {
+            totalLength += suffix.length();
+        }
+
+        // Add the length of the separator '#' for each word in the set
+        return totalLength + suffixSet.size();
+    }
+}
