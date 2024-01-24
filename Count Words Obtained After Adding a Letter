@@ -1,0 +1,32 @@
+
+class Solution {
+    public int wordCount(String[] sourceWords, String[] targetWords) {
+        Set<String> sortedWordsSet = new HashSet<>();
+
+        for (String sourceWord : sourceWords) {
+            char[] sortedChars = sourceWord.toCharArray();
+            Arrays.sort(sortedChars);
+            sortedWordsSet.add(new String(sortedChars));
+        }
+
+        int count = 0;
+
+        for (String targetWord : targetWords) {
+            int length = targetWord.length();
+
+            for (int i = 0; i < length; i++) {
+                String modifiedWord = targetWord.substring(0, i) + targetWord.substring(i + 1);
+                char[] sortedModifiedChars = modifiedWord.toCharArray();
+                Arrays.sort(sortedModifiedChars);
+                modifiedWord = new String(sortedModifiedChars);
+
+                if (sortedWordsSet.contains(modifiedWord)) {
+                    count++;
+                    break;
+                }
+            }
+        }
+
+        return count;
+    }
+}
